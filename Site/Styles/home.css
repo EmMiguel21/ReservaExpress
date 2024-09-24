@@ -1,0 +1,60 @@
+.page-title h3{
+    font-size: 40px;
+    background: -webkit-linear-gradient(#d11919, #114fab);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;  
+}
+
+.form-container {
+    background-color: #ebd9b5;
+    border: 1px solid #000000;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.section-title {
+    text-align: center;
+    padding: 20px;
+    background-color: #f5f5f5;
+    color: #3d3ad8;
+    font-weight: bold;
+}
+
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #b6a49d;
+    color: #fff;
+    padding: 20px;
+}
+
+footer a {
+    color: #fff;
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+.social-icons a {
+    font-size: 20px;
+    color: #fff;
+    margin: 0 10px;
+}
+
+.carousel-placeholder {
+    background-color: #ccc;
+    height: 300px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

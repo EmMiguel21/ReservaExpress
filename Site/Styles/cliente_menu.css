@@ -1,0 +1,88 @@
+body {
+    background-color: #dfd2c0;
+}
+
+.navbar {
+    background-color: #a17c4b;
+    padding: 10px;
+}
+
+.navbar-brand {
+    color: #000;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.nav-link {
+    color: #000;
+    margin-right: 20px;
+    font-weight: bold;
+}
+
+.nav-link:hover {
+    color: #333;
+}
+
+.section-title {
+    text-align: center;
+    padding: 20px;
+    font-size: 24px;
+    color: #3d3ad8;
+}
+
+.card {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.card img {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.card-body {
+    text-align: center;
+    padding: 10px;
+    background-color: #ebd9b5;
+}
+
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #b6a49d;
+    color: #fff;
+    padding: 20px;
+}
+
+footer a {
+    color: #fff;
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+.navbar_items li{
+    display: inline;
+}
+
+a.logo-title {
+    font-size: 50px;
+    background: -webkit-linear-gradient(#d11919, #114fab);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;  
+}
+
+a.nav-item-custom-act{
+    color: #fff;
+    font-size: 24px;
+    text-decoration: underline;
+}
+
+a.nav-item-custom{
+    color:#000;
+    font-size: 22px;
+    text-decoration: underline;
+
+}
