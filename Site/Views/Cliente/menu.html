@@ -5,16 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menú de Platos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../../Styles/cliente_menu.css" rel="stylesheet">
+    <link href="/Styles/cliente_menu.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <nav class="navbar">
         <div class="container">
             <a class="navbar-brand logo-title" href="#">ReservaExpress</a>
-            <a class="nav-item-custom-act nav-link" href="#">Menú</a>
-            <a class="nav-item-custom nav-link" href="#">Reservar</a>
-            <a class="nav-item-custom nav-link" href="#">Mis Reservas</a>
-            <a class="nav-item-custom nav-link" href="#">Salir</a>
+            <a class="nav-item-custom-act nav-link" href="/Views/Cliente//menu.html">Menú</a>
+            <a class="nav-item-custom nav-link" href="/Views//Cliente/reserva.html">Reservar</a>
+            <a class="nav-item-custom nav-link" href="/Views/Cliente/reservas.html">Mis Reservas</a>
+            <a class="nav-item-custom nav-link" href="/Views/home.html">Salir</a>
             </div>
         </div>
     </nav>
@@ -24,85 +25,14 @@
     </div>
 
     <div class="container">
-        <div class="row">
-            <div class="col-sm-6 col-md-4 col-lg-3">
-                <div class="card">
-                    <img src="../../Images/plato1.jpg" class="card-img-top" alt="Plato 1">
-                    <div class="card-body card-body-custom">
-                        <h5 class="card-title">Plato #1</h5>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-6 col-md-4 col-lg-3">
-                <div class="card">
-                    <img src="../../Images/plato1.jpg" class="card-img-top" alt="Plato 1">
-                    <div class="card-body card-body-custom">
-                        <h5 class="card-title">Plato #2</h5>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-6 col-md-4 col-lg-3">
-                <div class="card">
-                    <img src="../../Images/plato1.jpg" class="card-img-top" alt="Plato 1">
-                    <div class="card-body">
-                        <h5 class="card-title">Plato #3</h5>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-6 col-md-4 col-lg-3">
-                <div class="card">
-                    <img src="../../Images/plato1.jpg" class="card-img-top" alt="Plato 1">
-                    <div class="card-body">
-                        <h5 class="card-title">Plato #4</h5>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-6 col-md-4 col-lg-3">
-                <div class="card">
-                    <img src="../../Images/plato1.jpg" class="card-img-top" alt="Plato 1">
-                    <div class="card-body">
-                        <h5 class="card-title">Plato #5</h5>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-6 col-md-4 col-lg-3">
-                <div class="card">
-                    <img src="../../Images/plato1.jpg" class="card-img-top" alt="Plato 1">
-                    <div class="card-body">
-                        <h5 class="card-title">Plato #6</h5>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-6 col-md-4 col-lg-3">
-                <div class="card">
-                    <img src="../../Images/plato1.jpg" class="card-img-top" alt="Plato 1">
-                    <div class="card-body">
-                        <h5 class="card-title">Plato #7</h5>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-6 col-md-4 col-lg-3">
-                <div class="card">
-                    <img src="../../Images/plato1.jpg" class="card-img-top" alt="Plato 1">
-                    <div class="card-body">
-                        <h5 class="card-title">Plato #8</h5>
-                    </div>
-                </div>
-            </div>
+        <div class="row" id="platos_container">
         </div>
-
         <div class="text-center mt-4">
-            <button type="button" class="btn btn-dark">Mostrar más</button>
+            <button id="show_more_platos" type="button" class="btn btn-dark">Mostrar más</button>
         </div>
     </div>
 
+    <br><br><br><br><br><br><br><br><br><br></br>
     <footer class="text-center mt-5">
         <div class="social-icons mb-3">
             <a href="#"><i class="fab fa-facebook"></i></a>
@@ -119,8 +49,60 @@
         </div>
     </footer>
 
+
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </body>
 
 </html>
+<script>
+    let menu_cliente = [];
+    let divLoadIni = 8;
+    let divShowMoreC = 4;
+    let total = 0;
+
+    let parentDiv = $("#platos_container");
+    let showMoreBtn = $("#show_more_platos");
+
+    menu_cliente = localStorage.getItem("platos_menu");
+    if(menu_cliente == null){
+        $.getJSON('menu_cliente.json', function(data){
+            menu_cliente = data.menu_cliente;
+        })
+    }else{
+        menu_cliente = JSON.parse(localStorage.getItem("platos_menu"));
+    }
+
+    function agregarDivsPlatos(cantidad){
+        let max = Math.min(total + cantidad, menu_cliente.length);
+        for(let i = total; i < max; i++)
+        {
+            let newDiv = "";
+            newDiv += '<div class="col-sm-6 col-md-4 col-lg-3">';
+            newDiv += '<div class="card">'
+            newDiv += '<img src="' + menu_cliente[i].img_path + '" class="card-img-top">';
+            newDiv += '<div class="card-body card-body-custom">';
+            newDiv += '<h5 class="card-title">' + menu_cliente[i].plato + '</h5>'
+            newDiv += '</div></div></div>'
+
+            parentDiv.append(newDiv);
+
+        }
+        total = max;
+
+        $('#show_more_platos').on('click', function (){
+            agregarDivsPlatos(4);
+
+            if(total >= menu_cliente.length){
+                $('#show_more_platos').attr('hidden', 'hidden');
+            }
+        })
+    }
+
+    $(document).ready(function() {
+        agregarDivsPlatos(8);
+    })
+
+    
+
+</script>

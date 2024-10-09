@@ -5,17 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reservas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../../Styles/reservas.css" rel="stylesheet">
+    <link href="/Styles/reservas.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body> 
     <nav class="navbar">
         <div class="container">
             <a class="navbar-brand logo-title" href="#">ReservaExpress</a>
-            <a class="nav-item-custom nav-link" href="#">Menú</a>
-            <a class="nav-item-custom nav-link" href="#">Reservar</a>
-            <a class="nav-item-custom-act nav-link" href="#">Mis Reservas</a>
-            <a class="nav-item-custom nav-link" href="#">Salir</a>
+            <a class="nav-item-custom nav-link" href="/Views/Cliente//menu.html">Menú</a>
+            <a class="nav-item-custom nav-link" href="/Views//Cliente/reserva.html">Reservar</a>
+            <a class="nav-item-custom-act nav-link" href="/Views/Cliente/reservas.html">Mis Reservas</a>
+            <a class="nav-item-custom nav-link" href="/Views/home.html">Salir</a>
             </div>
         </div>
     </nav>
@@ -29,47 +30,17 @@
             <div class="col-md-8">
                 <div class="form-container">
                     <h3></h3>
-                    <table class="table table-striped table-condensed">
+                    <table id="reservas_cliente_table" class="table table-striped table-condensed">
                         <thead>
                         <tr>
                             <th class="text-center"></th>
+                            <th>Cantidad</th>
                             <th>Fecha de reserva</th>
                             <th>Estado de la reserva</th>
                             <th></th>                                          
                         </tr>
                     </thead>   
-                    <tbody>
-                      <tr>
-                          <td>Reserva #1</td>
-                          <td>24/09/2024</td>
-                          <td>En espera de disponibilidad</td>
-                          <td><button class="btn btn-danger">Cancelar</button></span>
-                          </td>                                       
-                      </tr>
-                      <tr>
-                          <td>Reservación #2</td>
-                          <td>20/09/2024</td>
-                          <td>Aprobada</td>
-                          <td></td>                                       
-                      </tr>
-                      <tr>
-                          <td>Reservación #3</td>
-                          <td>09/09/2024</td>
-                          <td>Cancelada</td>
-                          <td></td>                                        
-                      </tr>
-                      <tr>
-                          <td>Reservación #4</td>
-                          <td>01/09/2024</td>
-                          <td>Completada</td>
-                          <td></td>                                       
-                      </tr>
-                      <tr>
-                          <td>...</td>
-                          <td>...</td>
-                          <td>...</td>
-                          <td></td>                                        
-                      </tr>                                   
+                    <tbody>                              
                     </tbody>
                   </table>
                     <div class="pagination-container">
@@ -104,7 +75,62 @@
             <a href="#">Privacidad</a>
         </div>
     </footer>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+<script>
+    let nombre_usuario = localStorage.getItem("nombre_usuario");
+    let reservas_cliente = [];
+    reservas_cliente =  localStorage.getItem("reservas_cliente");
+    if(reservas_cliente == null){
+        $.getJSON('reservas_cliente.json', function(data){
+            reservas_cliente = data.reservas_cliente;
+        })
+    }else{
+        reservas_cliente = JSON.parse(localStorage.getItem("reservas_cliente"));
+    }
+
+    function cancelarClicked(id){
+        let reservaRow = $('.reserva_row_' + id)
+        let estadoRow = reservaRow.find('#estado_reserva_' + id);
+
+        let index = reservas_cliente.findIndex(reserva => reserva.Id == id);
+        
+        if(index !== -1){
+            reservas_cliente[index].estado = "Cancelada";
+            console.log("du: " + reservas_cliente[index])
+            localStorage.setItem("reservas_cliente", JSON.stringify(reservas_cliente));
+        }
+        estadoRow.text("");
+        estadoRow.text("Cancelada");
+
+        reservaRow.find("#buttons_row_" + id).children().remove();
+    }
+
+    
+    $(document).ready(function (){
+
+        let fila = "";            
+        reservas_cliente.forEach(function(reserva) {
+            if(reserva.nombre === nombre_usuario){    
+                fila += '<tr class="reserva_row_' + reserva.Id + '">';
+                fila += '<td>' + reserva.Id + '</td>'
+                fila += '<td>' + reserva.cantidad + ' Persona(s)</td>'
+                fila += '<td>' + reserva.fecha + " " + reserva.hora + '</td>'
+                fila += '<td id="estado_reserva_' + reserva.Id + '">' + reserva.estado + '</td>'
+                
+                if(reserva.estado === "En espera de disponibilidad"){
+                    fila += '<td id="buttons_row_' + reserva.Id + '"><button class="btn btn-danger btn-rechazar" onclick="cancelarClicked(' + reserva.Id + ')">Cancelar</button></span></td>    '
+                }else 
+                { 
+                    fila += '<td></td>'
+                }
+            }
+            
+            fila += '</tr>';
+        })
+        $('#reservas_cliente_table').append(fila);
+
+        localStorage.setItem("reservas_cliente", JSON.stringify(reservas_cliente));
+    })
+</script>

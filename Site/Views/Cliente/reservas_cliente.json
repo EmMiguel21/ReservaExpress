@@ -1,0 +1,44 @@
+{
+    "reservas_cliente": [
+        {
+            "Id": 1,
+            "nombre": "Angel Montero",
+            "cantidad": "2",
+            "fecha": "2024-09-20",
+            "hora": "17:00",
+			"estado": "En espera de disponibilidad"
+        },
+        {
+            "Id": 2,
+            "nombre": "Angel Montero",
+            "cantidad": "1",
+            "fecha": "2024-09-24",
+            "hora": "13:00",
+			"estado": "Aprobada"
+        },
+        {
+            "Id": 3,
+            "nombre": "Jhon Doe",
+            "cantidad": "3",
+            "fecha": "2024-09-19",
+            "hora": "14:00",
+			"estado": "Completada"
+        },
+        {
+            "Id": 4,
+            "nombre": "Maria Paula",
+            "cantidad": "4",
+            "fecha": "2024-09-30",
+            "hora": "20:00",
+			"estado": "Cancelada"
+        },
+        {
+            "Id": 5,
+            "nombre": "Jennifer Puentes",
+            "cantidad": "2",
+            "fecha": "2024-10-10",
+            "hora": "09:00",
+			"estado": "Rechazada por falta de disponibilidad"
+        }
+    ]
+}

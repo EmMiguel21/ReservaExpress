@@ -1,0 +1,16 @@
+{
+    "menu_admin": [
+        {
+            "nombre": "Miguel Lopez",
+            "username": "miguel.lopez",
+            "password": "Admin123",
+			"rol": "Admin"
+        },
+        {
+            "nombre": "Angel Montero",
+            "username": "angel.montero",
+            "password": "Cliente123",
+			"Rol": "Usuario"
+        }
+    ]
+}

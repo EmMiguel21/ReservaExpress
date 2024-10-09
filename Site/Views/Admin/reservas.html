@@ -5,16 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reservas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../../Styles/reservas.css" rel="stylesheet">
+    <link href="/Styles/reservas.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body> 
     <nav class="navbar">
         <div class="container">
             <a class="navbar-brand logo-title" href="#">ReservaExpress</a>
-            <a class="nav-item-custom-act nav-link" href="#">Reservas</a>
-            <a class="nav-item-custom nav-link" href="#">Menú</a>
-            <a class="nav-item-custom nav-link" href="#">Salir</a>
+            <a class="nav-item-custom-act nav-link" href="/Views/Admin/reservas.html">Reservas</a>
+            <a class="nav-item-custom nav-link" href="/Views/Admin/menu.html">Menú</a>
+            <a class="nav-item-custom nav-link" href="/Views/home.html">Salir</a>
             </div>
         </div>
     </nav>
@@ -28,7 +29,7 @@
             <div class="col-md-8">
                 <div class="form-container">
                     <h3></h3>
-                    <table class="table table-striped table-condensed">
+                    <table id="reservas_admin_table" class="table table-striped table-condensed">
                         <thead>
                         <tr>
                             <th class="text-center"></th>
@@ -40,46 +41,7 @@
                         </tr>
                     </thead>   
                     <tbody>
-                      <tr>
-                          <td>Reserva #1</td>
-                          <td>Miguel Lopez</td>
-                          <td>2 Personas</td>
-                          <td>24/09/2024</td>
-                          <td>En espera de disponibilidad</td>
-                          <td><button class="btn btn-success">Aprobar</button></span> <button class="btn btn-danger">Rechazar</button></span></td>                                       
-                      </tr>
-                      <tr>
-                        <td>Reserva #1</td>
-                        <td>Angel Montero</td>
-                        <td>r Personas</td>
-                        <td>28/09/2024</td>
-                        <td>Aprobada</td>
-                        <td></td>      
-                      </tr>
-                      <tr>
-                        <td>Reserva #3</td>
-                        <td>Jhon Doe</td>
-                        <td>2 Personas</td>
-                        <td>25/09/2024</td>
-                        <td>Completada</td>
-                        <td></td>                                        
-                      </tr>
-                      <tr>
-                        <td>Reserva #1</td>
-                        <td>Lionel Messi</td>
-                        <td>4 Personas</td>
-                        <td>24/09/2024</td>
-                        <td>Cancelada</td>
-                        <td></td>                                        
-                      </tr>
-                      <tr>
-                        <td>...</td>
-                        <td>...</td>
-                        <td>...</td>
-                        <td>...</td>
-                        <td>...</td>
-                        <td>...</td>
-                      </tr>                                   
+                                                     
                     </tbody>
                   </table>
                     <div class="pagination-container">
@@ -118,3 +80,93 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+<script>
+
+    let reservas_admin = [];
+    reservas_admin = JSON.parse(localStorage.getItem("reservas_cliente"));
+    if(reservas_admin == null)
+    {
+        $.getJSON('/Views/Cliente/reservas_cliente.json', function(data){
+            reservas_admin = data.reservas_cliente;
+        })
+    }else{
+        reservas_admin = JSON.parse(localStorage.getItem("reservas_cliente"));
+    }
+
+
+    function aprobarClicked(id){
+        let reservaRow = $('.reserva_row_' + id)
+        let estadoRow = reservaRow.find('#estado_reserva_' + id);
+
+        let index = reservas_admin.findIndex(reserva => reserva.Id == id);
+        
+        if(index !== -1){
+            reservas_admin[index].estado = "Aprobada";
+            localStorage.setItem("reservas_cliente", JSON.stringify(reservas_admin));
+        }
+
+        estadoRow.text("");
+        estadoRow.text("Aprobada")
+        
+        reservaRow.find("#buttons_row_" + id).children().remove();
+    }
+
+    function rechazarClicked(id){
+        console.log(id);
+        let reservaRow = $('.reserva_row_' + id)
+        let estadoRow = reservaRow.find('#estado_reserva_' + id);
+
+        let index = reservas_admin.findIndex(reserva => reserva.Id == id);
+        
+        if(index !== -1){
+            reservas_admin[index].estado = "Rechazada por falta de disponibilidad";
+            localStorage.setItem("reservas_cliente", JSON.stringify(reservas_admin));
+        }
+
+        estadoRow.text("");
+        estadoRow.text("Rechazada por falta de disponibilidad");
+        reservaRow.find("#buttons_row_" + id).children().remove();
+    }
+
+    function completarClicked(id){
+        console.log(id);
+        let reservaRow = $('.reserva_row_' + id)
+        let estadoRow = reservaRow.find('#estado_reserva_' + id);
+
+        let index = reservas_admin.findIndex(reserva => reserva.Id == id);
+        
+        if(index !== -1){
+            reservas_admin[index].estado = "Completada";
+            localStorage.setItem("reservas_cliente", JSON.stringify(reservas_admin));
+        }
+
+        estadoRow.text("");
+        estadoRow.text("Completada");
+        reservaRow.find("#buttons_row_" + id).children().remove();
+    }
+
+    $(document).ready(function (){
+
+        let fila = "";
+        reservas_admin.forEach(function(reserva){
+            fila += '<tr class="reserva_row_' + reserva.Id + '">';
+            fila += '<td>' + reserva.Id + '</td>'
+            fila += '<td>' + reserva.nombre + '</td>'
+            fila += '<td>' + reserva.cantidad + '</td>'
+            fila += '<td>' + reserva.fecha + " " + reserva.hora + '</td>'
+            fila += '<td id="estado_reserva_' + reserva.Id + '">' + reserva.estado + '</td>'
+
+            if(reserva.estado === "En espera de disponibilidad"){
+                fila += '<td id="buttons_row_' + reserva.Id + '"><button class="btn btn-success" onclick="aprobarClicked(' + reserva.Id + ')">Aprobar</button></span> <button class="btn btn-danger btn-rechazar" onclick="rechazarClicked(' + reserva.Id + ')">Rechazar</button></span></td>'
+            } else if(reserva.estado === "Aprobada"){
+                fila += '<td id="buttons_row_' + reserva.Id + '"><button class="btn btn-info" onclick="completarClicked(' + reserva.Id + ')">Completada</button></td>'
+            }
+            else{
+                fila += '<td></td>'
+            }
+
+            fila += '</tr>';
+        })
+        $('#reservas_admin_table').append(fila);     
+    })
+</script>

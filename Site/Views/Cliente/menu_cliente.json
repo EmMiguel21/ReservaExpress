@@ -1,0 +1,76 @@
+{
+    "menu_cliente": [
+        {
+            "Id": 1,
+            "plato": "Ajiaco",
+            "descripcion": "Descripción del plato",
+            "img_path": "/Images/plato1.jpg"
+        },
+        {
+            "Id": 2,
+            "plato": "Plato #2",
+            "descripcion": "Descripción del plato",
+            "img_path": "/Images/plato1.jpg"
+        },
+        {
+            "Id": 3,
+            "plato": "Plato #3",
+            "descripcion": "Descripción del plato",
+            "img_path": "/Images/plato1.jpg"
+        },
+        {
+            "Id": 4,
+            "plato": "Plato #4",
+            "descripcion": "Descripción del plato",
+            "img_path": "/Images/plato1.jpg"
+        },
+        {
+            "Id": 5,
+            "plato": "Plato #5",
+            "descripcion": "Descripción del plato",
+            "img_path": "/Images/plato1.jpg"
+        },
+        {
+            "Id": 6,
+            "plato": "Plato #6",
+            "descripcion": "Descripción del plato",
+            "img_path": "/Images/plato1.jpg"
+        },
+        {
+            "Id": 7,
+            "plato": "Plato #7",
+            "descripcion": "Descripción del plato",
+            "img_path": "/Images/plato1.jpg"
+        },
+        {
+            "Id": 8,
+            "plato": "Plato #8",
+            "descripcion": "Descripción del plato",
+            "img_path": "/Images/plato1.jpg"
+        },
+        {
+            "Id": 9,
+            "plato": "Plato #9",
+            "descripcion": "Descripción del plato",
+            "img_path": "/Images/plato1.jpg"
+        },
+        {
+            "Id": 10,
+            "plato": "Plato #10",
+            "descripcion": "Descripción del plato",
+            "img_path": "/Images/plato1.jpg"
+        },
+        {
+            "Id": 11,
+            "plato": "Plato #11",
+            "descripcion": "Descripción del plato",
+            "img_path": "/Images/plato1.jpg"
+        },
+        {
+            "Id": 12,
+            "plato": "Plato #12",
+            "descripcion": "Descripción del plato",
+            "img_path": "/Images/plato1.jpg"
+        }
+    ]
+}
